@@ -2,6 +2,8 @@ package main.java.ui;
 
 import java.util.Scanner;
 
+import main.java.core.Gameplay;
+
 /**
  * Description: Create a simple console UI for a game of Connect 4. Determines
  * the structure of a Connect 4 game.
@@ -37,8 +39,7 @@ public class TerminalUi {
                 System.out.println("pve not yet implemented");
                 break;
             case 2:
-                // pvp();
-                System.out.println("pvp not yet implemented");
+                pvp();
                 break;
             case 0:
                 System.exit(0);
@@ -48,6 +49,12 @@ public class TerminalUi {
             }
         }
         scan.close();
+    }
+    
+    public static void pvp() {
+        Gameplay game = new Gameplay(2);
+        game.start();
+        System.out.println("End");
     }
 
 }
