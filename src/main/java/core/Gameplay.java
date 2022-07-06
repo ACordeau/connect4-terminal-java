@@ -38,7 +38,7 @@ public class Gameplay {
         Connect4Logic game = new Connect4Logic(playerX, playerO);
         scan = new Scanner(System.in);
         boolean valid = false;
-        int choice = -1;
+        int choice = -5;
 
         game.createBlankBoard(game.getGameBoard());
 
@@ -47,6 +47,10 @@ public class Gameplay {
                 game.display(game.getGameBoard());
 
                 choice = Utils.getInput(scan);
+                if (choice == -1) {
+                    game.gameQuit(game.getCurrentPlayer());
+                    return;
+                }
                 valid = Utils.valid(choice, game.getGameBoard());
 
             } while (!valid);
