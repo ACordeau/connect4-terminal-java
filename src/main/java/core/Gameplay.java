@@ -34,28 +34,32 @@ public class Gameplay {
     }
 
     public void pvp() {
-        System.out.println("Entered PVP");
         Connect4Logic game = new Connect4Logic(playerX, playerO);
+        Player currentPlayer;
+        char[][] gameBoard = game.getGameBoard();
         scan = new Scanner(System.in);
         boolean valid = false;
         int choice = -5;
 
-        game.createBlankBoard(game.getGameBoard());
+        game.createBlankBoard(gameBoard);
 
         while (!game.outOfPieces(playerX, playerO)) {
             do {
-                game.display(game.getGameBoard());
+                currentPlayer = game.getCurrentPlayer();
+//                gameBoard = game.getGameBoard();
+                game.display(gameBoard);
 
                 choice = Utils.getInput(scan);
                 if (choice == -1) {
-                    game.gameQuit(game.getCurrentPlayer());
+                    game.gameQuit(currentPlayer);
                     return;
                 }
-                valid = Utils.valid(choice, game.getGameBoard());
+                valid = Utils.valid(choice, gameBoard);
 
             } while (!valid);
 
-            game.placePiece(game.getGameBoard(), game.getCurrentPlayer(), choice);
+            game.placePiece(gameBoard, currentPlayer, choice);
+            gameBoard = game.getGameBoard();
 
         }
 
