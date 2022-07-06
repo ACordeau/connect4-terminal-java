@@ -42,6 +42,7 @@ public class TerminalUi {
                 pvp();
                 break;
             case 0:
+                System.out.println("Thank you for joining, goodbye!");
                 System.exit(0);
                 break;
             default:
@@ -54,7 +55,7 @@ public class TerminalUi {
     public static void pvp() {
         Gameplay game = new Gameplay(2);
         game.start();
-        System.out.println("End");
+        menu();
     }
 
 }
