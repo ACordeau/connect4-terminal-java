@@ -104,4 +104,26 @@ public class Connect4Logic {
         return false;
     }
 
+    public void gameQuit(Player currentPlayer) {
+        String winner;
+        String current;
+
+        if (currentPlayer.equals(playerX)) {
+            current = "X";
+            winner = "O";
+        } else {
+            current = "O";
+            winner = "X";
+        }
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("Player ");
+        builder.append(current);
+        builder.append(" has quit the game. Player ");
+        builder.append(winner);
+        builder.append(" wins!");
+
+        System.out.println(builder);
+    }
+
 }
