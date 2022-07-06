@@ -1,13 +1,19 @@
 package main.java.utils;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Utils {
 
     public static int getInput(Scanner scan) {
-        int choice = scan.nextInt();
-        choice = choice - 1;
-        return choice;
+        try {
+            int choice = scan.nextInt();
+            choice = choice - 1;
+            return choice;
+        } catch (InputMismatchException e) {
+            scan.nextLine();
+            return -5;
+        }
     }
 
     public static boolean valid(int choice, char[][] board) {
