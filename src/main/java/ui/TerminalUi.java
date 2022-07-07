@@ -13,13 +13,15 @@ import main.java.core.Gameplay;
  */
 
 public class TerminalUi {
+    
+    private static Scanner scan;
 
     public static void main(String[] args) {
         menu();
     }
 
     public static void menu() {
-        Scanner scan = new Scanner(System.in);
+        scan = new Scanner(System.in);
         int playerMenuChoice = -1;
 
         while (playerMenuChoice < 0 || playerMenuChoice > 2) {
@@ -43,17 +45,18 @@ public class TerminalUi {
                 break;
             case 0:
                 System.out.println("Thank you for joining, goodbye!");
+                scan.close();
                 System.exit(0);
                 break;
             default:
                 System.out.println("Please select an available option");
             }
         }
-        scan.close();
+        
     }
     
     public static void pvp() {
-        Gameplay game = new Gameplay(2);
+        Gameplay game = new Gameplay(2, scan);
         game.start();
         menu();
     }

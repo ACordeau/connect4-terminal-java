@@ -1,10 +1,12 @@
 package main.java.core;
 
-public class Player {
+import main.java.utils.Connect4Constants;
+
+public class Player implements Connect4Constants{
     int pieces;
     
     public Player() {
-        setPieces(21);
+        setPieces(PIECES);
     }
     
     private void setPieces(int pieces) {

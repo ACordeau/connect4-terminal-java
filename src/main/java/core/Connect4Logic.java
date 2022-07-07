@@ -1,6 +1,8 @@
 package main.java.core;
 
-public class Connect4Logic {
+import main.java.utils.Connect4Constants;
+
+public class Connect4Logic implements Connect4Constants {
 
     private Player playerX;
     private Player playerO;
@@ -11,7 +13,7 @@ public class Connect4Logic {
         this.playerX = playerX;
         this.playerO = playerO;
         currentPlayerStart(playerX);
-        this.gameBoard = new char[6][7];
+        this.gameBoard = new char[ROWS][COLS];
     }
 
     private void currentPlayerStart(Player currPlayer) {
@@ -91,8 +93,6 @@ public class Connect4Logic {
         }
 
         currentPlayer.decrementPiece();
-
-        setCurrentPlayer(currentPlayer);
     }
 
     public boolean outOfPieces(Player px, Player po) {
@@ -124,6 +124,49 @@ public class Connect4Logic {
         builder.append(" wins!");
 
         System.out.println(builder);
+    }
+
+    public void announceWinner(boolean winner, Player currentPlayer) {
+        if (winner) {
+            if (currentPlayer.equals(playerX)) {
+                System.out.println("Player X wins!");
+                return;
+            }
+
+            if (currentPlayer.equals(playerO)) {
+                System.out.println("Player O wins!");
+                return;
+            }
+        }
+
+        System.out.println("The game is a tie!");
+        return;
+
+    }
+
+    public boolean winner(char[][] gameBoard, Player currentPlayer) {
+
+        char piece = determinePlayerPiece(currentPlayer);
+
+        int[][] directions = { { 1, 0 }, { 1, -1 }, { 1, 1 }, { 0, 1 }, { -1, 1 }, { -1, 0 }, { 0, -1 }, { -1, -1 } };
+        for (int[] d : directions) {
+            int dx = d[0];
+            int dy = d[1];
+            for (int x = 0; x < COLS; x++) {
+                for (int y = 0; y <= ROWS; y++) {
+                    int lastx = x + 4 * dx;
+                    int lasty = y + 4 * dy;
+                    if (0 <= lastx && lastx < ROWS && 0 <= lasty && lasty < COLS) {
+                        if (piece != ' ' && piece == gameBoard[x + dx][y + dy]
+                                && piece == gameBoard[x + 2 * dx][y + 2 * dy]
+                                && piece == gameBoard[x + 3 * dx][y + 3 * dy] && piece == gameBoard[lastx][lasty]) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
 }

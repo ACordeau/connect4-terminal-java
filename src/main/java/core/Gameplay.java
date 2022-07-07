@@ -1,6 +1,5 @@
 package main.java.core;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import main.java.utils.Utils;
@@ -11,11 +10,12 @@ public class Gameplay {
     private Player playerO;
     private Scanner scan;
 
-    public Gameplay(int gameType) {
+    public Gameplay(int gameType, Scanner scan) {
         System.out.println("Gameplay Created");
         this.gameType = gameType;
         playerX = new Player();
         playerO = new Player();
+        this.scan = scan;
     }
 
     public void start() {
@@ -35,18 +35,17 @@ public class Gameplay {
 
     public void pvp() {
         Connect4Logic game = new Connect4Logic(playerX, playerO);
-        Player currentPlayer;
+        Player currentPlayer = null;
         char[][] gameBoard = game.getGameBoard();
-        scan = new Scanner(System.in);
         boolean valid = false;
         int choice = -5;
+        boolean winner = false;
 
         game.createBlankBoard(gameBoard);
 
         while (!game.outOfPieces(playerX, playerO)) {
             do {
                 currentPlayer = game.getCurrentPlayer();
-//                gameBoard = game.getGameBoard();
                 game.display(gameBoard);
 
                 choice = Utils.getInput(scan);
@@ -60,10 +59,15 @@ public class Gameplay {
 
             game.placePiece(gameBoard, currentPlayer, choice);
             gameBoard = game.getGameBoard();
+            winner = game.winner(gameBoard, currentPlayer);
+            if (winner) {
+                break;
+            }
+            game.setCurrentPlayer(currentPlayer);
 
         }
-
-        scan.close();
+        game.display(gameBoard);
+        game.announceWinner(winner, currentPlayer);
 
     }
 
