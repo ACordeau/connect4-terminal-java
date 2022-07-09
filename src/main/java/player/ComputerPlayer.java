@@ -5,27 +5,26 @@ import java.util.Random;
 import main.java.utils.Utils;
 
 public class ComputerPlayer extends Player {
-    private int pieces;
 
     public ComputerPlayer() {
         super();
     }
 
     public int computerTurn(char[][] gameBoard) {
-        int thiar = threeInARow(gameBoard);
-        int twiar = twoInARow(gameBoard);
-        int tryToWin = tryToWin(gameBoard);
 
-        if (tryToWin != -2 || Utils.valid(tryToWin, gameBoard)) {
+        int tryToWin = tryToWin(gameBoard);
+        if (tryToWin != -2 && Utils.valid(tryToWin, gameBoard, this)) {
             return tryToWin;
         }
 
-        if (thiar != -2 || Utils.valid(thiar, gameBoard)) {
+        int thiar = threeInARow(gameBoard);
+        if (thiar != -2 && Utils.valid(thiar, gameBoard, this)) {
             return thiar;
         }
 
-        if (twiar != -2 || Utils.valid(twiar, gameBoard)) {
-            if (computerRandomChoice(gameBoard) % 2 != 0) {
+        int twiar = twoInARow(gameBoard);
+        if (twiar != -2 && Utils.valid(twiar, gameBoard, this)) {
+            if (Utils.randomNumber() % 2 != 0) {
                 return twiar;
             }
 
@@ -43,12 +42,13 @@ public class ComputerPlayer extends Player {
             random = rand.nextInt(7 - 0) + 0;
         } while (Utils.columnFull(random, gameBoard));
 
+        System.out.println("THE RANDOM CHOICE IS " + random);
+
         return random;
 
     }
 
     public int computerRandomChoice(char[][] gameBoard, int except) {
-
         Random rand = new Random();
         int random;
         int amount = 0;
@@ -68,8 +68,7 @@ public class ComputerPlayer extends Player {
     public int tryToWin(char[][] gameBoard) {
         char piece = O;
 
-        int[][] directions = { { 1, 0 }, { 1, -1 }, { 1, 1 }, { 0, 1 }, { -1, 1 }, { -1, 0 }, { 0, -1 }, { -1, -1 } };
-        for (int[] d : directions) {
+        for (int[] d : DIRECTIONS) {
             int dx = d[0];
             int dy = d[1];
 
@@ -85,9 +84,6 @@ public class ComputerPlayer extends Player {
                             if (piece != ' ' && piece == gameBoard[x + dx][y + dy]
                                     && piece == gameBoard[x + 2 * dx][y + 2 * dy] && piece == gameBoard[lastx][lasty]
                                     && gameBoard[x][y] != X) {
-
-                                System.out.println("X: " + x + "\tY: " + y);
-                                System.out.println("X+1: " + (x + 1) + "\tY+1: " + (y + 1));
 
                                 if (((d[0] == 1 && d[1] == 1)
                                         || (d[0] == 1 && d[1] == -1) && gameBoard[x + 1][y] == ' ')) {
@@ -108,11 +104,9 @@ public class ComputerPlayer extends Player {
     }
 
     public int twoInARow(char[][] gameBoard) {
-
         char piece = X;
 
-        int[][] directions = { { 1, 0 }, { 1, -1 }, { 1, 1 }, { 0, 1 }, { -1, 1 }, { -1, 0 }, { 0, -1 }, { -1, -1 } };
-        for (int[] d : directions) {
+        for (int[] d : DIRECTIONS) {
             int dx = d[0];
             int dy = d[1];
 
@@ -145,11 +139,9 @@ public class ComputerPlayer extends Player {
     }
 
     public int threeInARow(char[][] gameBoard) {
-
         char piece = X;
 
-        int[][] directions = { { 1, 0 }, { 1, -1 }, { 1, 1 }, { 0, 1 }, { -1, 1 }, { -1, 0 }, { 0, -1 }, { -1, -1 } };
-        for (int[] d : directions) {
+        for (int[] d : DIRECTIONS) {
             int dx = d[0];
             int dy = d[1];
 
@@ -165,9 +157,6 @@ public class ComputerPlayer extends Player {
                             if (piece != ' ' && piece == gameBoard[x + dx][y + dy]
                                     && piece == gameBoard[x + 2 * dx][y + 2 * dy] && piece == gameBoard[lastx][lasty]
                                     && gameBoard[x][y] != O) {
-
-                                System.out.println("X: " + x + "\tY: " + y);
-                                System.out.println("X+1: " + (x + 1) + "\tY+1: " + (y + 1));
 
                                 if (((d[0] == 1 && d[1] == 1)
                                         || (d[0] == 1 && d[1] == -1) && gameBoard[x + 1][y] == ' ')) {
