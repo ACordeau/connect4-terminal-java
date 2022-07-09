@@ -1,7 +1,9 @@
 package main.java.utils;
 
 public interface Connect4Constants {
-    public static int ROWS = 6;
-    public static int COLS = 7;
-    public static int PIECES = 21;
+    public static final int ROWS = 6;
+    public static final int COLS = 7;
+    public static final int PIECES = 21;
+    public static final char X = 'X';
+    public static final char O = 'O';
 }

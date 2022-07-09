@@ -13,7 +13,7 @@ import main.java.core.Gameplay;
  */
 
 public class TerminalUi {
-    
+
     private static Scanner scan;
 
     public static void main(String[] args) {
@@ -37,11 +37,10 @@ public class TerminalUi {
 
             switch (playerMenuChoice) {
             case 1:
-                // pve();
-                System.out.println("pve not yet implemented");
+                start(playerMenuChoice);
                 break;
             case 2:
-                pvp();
+                start(playerMenuChoice);
                 break;
             case 0:
                 System.out.println("Thank you for joining, goodbye!");
@@ -52,11 +51,11 @@ public class TerminalUi {
                 System.out.println("Please select an available option");
             }
         }
-        
+
     }
-    
-    public static void pvp() {
-        Gameplay game = new Gameplay(2, scan);
+
+    public static void start(int type) {
+        Gameplay game = new Gameplay(type, scan);
         game.start();
         menu();
     }

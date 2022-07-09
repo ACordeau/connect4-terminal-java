@@ -1,5 +1,9 @@
 package main.java.core;
 
+import java.time.Duration;
+import java.time.Instant;
+
+import main.java.player.Player;
 import main.java.utils.Connect4Constants;
 
 public class Connect4Logic implements Connect4Constants {
@@ -40,9 +44,9 @@ public class Connect4Logic implements Connect4Constants {
     public char determinePlayerPiece(Player currentPlayer) {
 
         if (currentPlayer.equals(playerX)) {
-            return 'X';
+            return X;
         } else {
-            return 'O';
+            return O;
         }
 
     }
@@ -144,6 +148,11 @@ public class Connect4Logic implements Connect4Constants {
 
     }
 
+    public char getPiece(int row, int col) {
+        char c = gameBoard[row][col];
+        return c;
+    }
+
     public boolean winner(char[][] gameBoard, Player currentPlayer) {
 
         char piece = determinePlayerPiece(currentPlayer);
@@ -152,21 +161,62 @@ public class Connect4Logic implements Connect4Constants {
         for (int[] d : directions) {
             int dx = d[0];
             int dy = d[1];
-            for (int x = 0; x < COLS; x++) {
-                for (int y = 0; y <= ROWS; y++) {
-                    int lastx = x + 4 * dx;
-                    int lasty = y + 4 * dy;
-                    if (0 <= lastx && lastx < ROWS && 0 <= lasty && lasty < COLS) {
-                        if (piece != ' ' && piece == gameBoard[x + dx][y + dy]
-                                && piece == gameBoard[x + 2 * dx][y + 2 * dy]
-                                && piece == gameBoard[x + 3 * dx][y + 3 * dy] && piece == gameBoard[lastx][lasty]) {
-                            return true;
+
+            for (int x = 0; x < ROWS; x++) {
+                for (int y = 0; y < COLS; y++) {
+
+                    int lastx = x + 3 * dx;
+                    int lasty = y + 3 * dy;
+
+                    if (getPiece(x, y) == piece) {
+
+                        if (0 <= lastx && lastx < ROWS && 0 <= lasty && lasty < COLS) {
+                            if (piece != ' ' && piece == gameBoard[x + dx][y + dy]
+                                    && piece == gameBoard[x + 2 * dx][y + 2 * dy]
+                                    && piece == gameBoard[x + 3 * dx][y + 3 * dy] && piece == gameBoard[lastx][lasty]) {
+                                return true;
+                            }
                         }
+
                     }
                 }
             }
         }
         return false;
+
+//        char piece = determinePlayerPiece(currentPlayer);
+//
+//        int[][] directions = { { 1, 0 }, { 1, -1 }, { 1, 1 }, { 0, 1 }, { -1, 1 }, { -1, 0 }, { 0, -1 }, { -1, -1 } };
+//        for (int[] d : directions) {
+//            int dx = d[0];
+//            int dy = d[1];
+//            System.out.println("STARTING NEW DIRECTION");
+//            System.out.println("DX: " + dx + "\t DY: " + dy);
+//            System.out.println();
+//
+//            for (int x = 0; x < COLS; x++) {
+//                System.out.println("CHECKING COLUMN: " + x + "\n");
+//                for (int y = 0; y <= ROWS; y++) {
+//                    System.out.println("CHECKING ROW: "+ y + "\n");
+//
+//                    System.out.println("X: " + x + "\t Y: " + y);
+//                    
+//                    int lastx = x + 4 * dx;
+//                    int lasty = y + 4 * dy;
+//                    
+//                    //System.out.println("LASTX: " + lastx + "\t LASTY: " + lasty + "\n");
+//                    
+//                    if (0 <= lastx && lastx < ROWS && 0 <= lasty && lasty < COLS) {
+//                        if (piece != ' ' && piece == gameBoard[x + dx][y + dy]
+//                                && piece == gameBoard[x + 2 * dx][y + 2 * dy]
+//                                && piece == gameBoard[x + 3 * dx][y + 3 * dy] && piece == gameBoard[lastx][lasty]) {
+//                            return true;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        return false;
     }
 
 }
