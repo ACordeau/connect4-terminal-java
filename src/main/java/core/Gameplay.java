@@ -7,6 +7,13 @@ import main.java.player.Player;
 import main.java.player.PlayerFactory;
 import main.java.player.ComputerPlayer;
 
+/**
+ * Description: Create an object which holds the structure of the Connect 4
+ * game.
+ * 
+ * @author Aaron Cordeau
+ * @version 7/3/2022
+ */
 public class Gameplay {
     private int gameType;
     private PlayerFactory pf;
@@ -21,12 +28,24 @@ public class Gameplay {
     private boolean winner;
     private boolean quit;
 
+    /**
+     * Constructor for the gameplay flow.
+     * 
+     * @param gameType Determines if the game is vs AI or Player
+     * @param scan     Scanner for input
+     */
     public Gameplay(int gameType, Scanner scan) {
         createPlayers(gameType);
         this.gameType = gameType;
         this.scan = scan;
     }
 
+    /**
+     * Creates the player objects by calling the player factory and passing the game
+     * type.
+     * 
+     * @param type The type of game, vs AI or Player
+     */
     public void createPlayers(int type) {
         pf = new PlayerFactory();
         playerX = pf.createPlayer('p');
@@ -37,20 +56,18 @@ public class Gameplay {
         }
     }
 
+    /**
+     * Entry point to start up the game flow
+     */
     public void start() {
-        switch (gameType) {
-        case 1:
-            playtime();
-            break;
-        case 2:
-            playtime();
-            break;
-        default:
-            System.out.println("Something went wrong!");
-            System.exit(1);
-        }
+
+        playtime();
+
     }
 
+    /**
+     * Initializes the game and creates a blank board
+     */
     private void init() {
         game = new Connect4Logic(playerX, playerO);
         currentPlayer = null;
@@ -62,16 +79,26 @@ public class Gameplay {
         game.createBlankBoard(gameBoard);
     }
 
+    /**
+     * Draws the board to the console
+     */
     public void showBoard() {
         game.display(gameBoard);
     }
 
+    /**
+     * Sets up the start of the turn
+     */
     public void startTurn() {
         currentPlayer = game.getCurrentPlayer();
         showBoard();
     }
 
+    /**
+     * Gets input from the AI or Player
+     */
     public void playerChoice() {
+
         if (currentPlayer instanceof ComputerPlayer) {
             choice = ((ComputerPlayer) currentPlayer).computerTurn(gameBoard);
         } else {
@@ -81,19 +108,28 @@ public class Gameplay {
                 quit = true;
                 return;
             }
-            valid = Utils.valid(choice, gameBoard);
+            valid = Utils.valid(choice, gameBoard, currentPlayer);
         }
     }
 
+    /**
+     * Places a piece onto the game board
+     */
     public void makeMove() {
         game.placePiece(gameBoard, currentPlayer, choice);
         gameBoard = game.getGameBoard();
     }
 
+    /**
+     * Checks if there is a winner
+     */
     public void checkWinner() {
         winner = game.winner(gameBoard, currentPlayer);
     }
 
+    /**
+     * The Connect 4 gameplay loop
+     */
     public void playtime() {
 
         init();
@@ -126,43 +162,5 @@ public class Gameplay {
             game.announceWinner(winner, currentPlayer);
         }
     }
-
-//    public void pvp() {
-//        game = new Connect4Logic(playerX, playerO);
-//        Player currentPlayer = null;
-//        char[][] gameBoard = game.getGameBoard();
-//        boolean valid = false;
-//        int choice = -5;
-//        boolean winner = false;
-//
-//        game.createBlankBoard(gameBoard);
-//
-//        while (!game.outOfPieces(playerX, playerO)) {
-//            do {
-//                currentPlayer = game.getCurrentPlayer();
-//                game.display(gameBoard);
-//
-//                choice = Utils.getInput(scan);
-//                if (choice == -1) {
-//                    game.gameQuit(currentPlayer);
-//                    return;
-//                }
-//                valid = Utils.valid(choice, gameBoard);
-//
-//            } while (!valid);
-//
-//            game.placePiece(gameBoard, currentPlayer, choice);
-//            gameBoard = game.getGameBoard();
-//            winner = game.winner(gameBoard, currentPlayer);
-//            if (winner) {
-//                break;
-//            }
-//            game.setCurrentPlayer(currentPlayer);
-//
-//        }
-//        game.display(gameBoard);
-//        game.announceWinner(winner, currentPlayer);
-//
-//    }
 
 }

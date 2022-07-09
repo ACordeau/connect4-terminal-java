@@ -4,12 +4,28 @@ import java.util.Random;
 
 import main.java.utils.Utils;
 
+/**
+ * Description: Connect4 Computer player. This class extends the Player class,
+ * and creates logic for how the computer player will play the game.
+ * 
+ * @author Aaron Cordeau
+ * @version 7/3/2022
+ */
 public class ComputerPlayer extends Player {
 
+    /**
+     * Default ComputerPlayer constructor which calls the Superclass Player
+     */
     public ComputerPlayer() {
         super();
     }
 
+    /**
+     * The entry point of the computer turn, all logic is called from this hub.
+     * 
+     * @param gameBoard current state of the game
+     * @return choice for the computer to place its piece
+     */
     public int computerTurn(char[][] gameBoard) {
 
         int tryToWin = tryToWin(gameBoard);
@@ -33,6 +49,13 @@ public class ComputerPlayer extends Player {
         return computerRandomChoice(gameBoard);
     }
 
+    /**
+     * Determines a piece for the AI to play randomly. Called only if the AI has no
+     * better options.
+     * 
+     * @param gameBoard current state of the game
+     * @return choice for the computer to place its piece
+     */
     public int computerRandomChoice(char[][] gameBoard) {
 
         Random rand = new Random();
@@ -48,6 +71,14 @@ public class ComputerPlayer extends Player {
 
     }
 
+    /**
+     * Determines a piece for the AI to play randomly, avoids the given choice if
+     * possible. Called if placing a piece in the 'except' slot will allow the
+     * Player to win.
+     * 
+     * @param gameBoard current state of the game
+     * @return choice for the computer to place its piece
+     */
     public int computerRandomChoice(char[][] gameBoard, int except) {
         Random rand = new Random();
         int random;
@@ -65,6 +96,13 @@ public class ComputerPlayer extends Player {
 
     }
 
+    /**
+     * The AI checks to see if it has 3 pieces in a row, and will prioritize winning
+     * the game over stopping the Player from winning.
+     * 
+     * @param gameBoard current state of the game
+     * @return choice for the computer to place its piece
+     */
     public int tryToWin(char[][] gameBoard) {
         char piece = O;
 
@@ -103,6 +141,14 @@ public class ComputerPlayer extends Player {
         return -2;
     }
 
+    /**
+     * The AI checks to see if the player has 2 pieces in a row. If it does, it has
+     * a 50% chance to either try and block the Player's piece, or place a random
+     * piece.
+     * 
+     * @param gameBoard current state of the game
+     * @return choice for the computer to place its piece
+     */
     public int twoInARow(char[][] gameBoard) {
         char piece = X;
 
@@ -138,6 +184,13 @@ public class ComputerPlayer extends Player {
         return -2;
     }
 
+    /**
+     * The AI checks to see if the Player has 3 pieces in a row, if they do, it will
+     * try to block them from winning.
+     * 
+     * @param gameBoard current state of the game
+     * @return choice for the computer to place its piece
+     */
     public int threeInARow(char[][] gameBoard) {
         char piece = X;
 

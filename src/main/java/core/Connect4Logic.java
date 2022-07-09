@@ -1,11 +1,15 @@
 package main.java.core;
 
-import java.time.Duration;
-import java.time.Instant;
-
 import main.java.player.Player;
 import main.java.utils.Connect4Constants;
 
+/**
+ * Description: Connect4 game logic. Determines the rules of a game of Connect
+ * 4.
+ * 
+ * @author Aaron Cordeau
+ * @version 7/3/2022
+ */
 public class Connect4Logic implements Connect4Constants {
 
     private Player playerX;
@@ -13,6 +17,9 @@ public class Connect4Logic implements Connect4Constants {
     private Player currentPlayer;
     private char[][] gameBoard;
 
+    /**
+     * Creates an instance of the Connect4Logic object
+     */
     public Connect4Logic(Player playerX, Player playerO) {
         this.playerX = playerX;
         this.playerO = playerO;
@@ -20,10 +27,20 @@ public class Connect4Logic implements Connect4Constants {
         this.gameBoard = new char[ROWS][COLS];
     }
 
+    /**
+     * Initializes current player
+     * 
+     * @param currPlayer The current turn player
+     */
     private void currentPlayerStart(Player currPlayer) {
         this.currentPlayer = currPlayer;
     }
 
+    /**
+     * Creates a fresh game board
+     * 
+     * @param gameBoard At the start of a new game, gives us a blank game board
+     */
     public void createBlankBoard(char[][] gameBoard) {
 
         for (int row = 0; row < gameBoard.length; row++) {
@@ -37,10 +54,21 @@ public class Connect4Logic implements Connect4Constants {
         }
     }
 
+    /**
+     * Returns the current player
+     * 
+     * @return currentPlayer The player whos turn it currently is
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * Returns the token for the current player
+     * 
+     * @param currentPlayer The current turn player
+     * @return Character token.
+     */
     public char determinePlayerPiece(Player currentPlayer) {
 
         if (currentPlayer.equals(playerX)) {
@@ -51,6 +79,11 @@ public class Connect4Logic implements Connect4Constants {
 
     }
 
+    /**
+     * Sets the new current player based on the current turn player.
+     * 
+     * @param p Current turn player
+     */
     public void setCurrentPlayer(Player p) {
         if (currentPlayer.equals(playerX)) {
             currentPlayer = playerO;
@@ -59,20 +92,30 @@ public class Connect4Logic implements Connect4Constants {
         }
     }
 
+    /**
+     * Returns the state of the game board
+     * 
+     * @return gameBoard char array
+     */
     public char[][] getGameBoard() {
         return gameBoard;
     }
 
+    /**
+     * Draws the gameBoard and populates the squares with the appropriate tokens
+     * 
+     * @param gameBoard char array
+     */
     public void display(char[][] gameBoard) {
         for (int row = 0; row < gameBoard.length; row++) {
 
-            System.out.print("|");
+            System.out.print(WALL);
 
             for (int col = 0; col < gameBoard[0].length; col++) {
 
                 System.out.print(gameBoard[row][col]);
 
-                System.out.print("|");
+                System.out.print(WALL);
 
             }
 
@@ -85,6 +128,14 @@ public class Connect4Logic implements Connect4Constants {
         System.out.println();
     }
 
+    /**
+     * Places the piece of the current player where they have chosen on the game
+     * board
+     * 
+     * @param gameBoard     The current state of the game board
+     * @param currentPlayer The current turn player
+     * @param choice        The choice the current turn player made
+     */
     public void placePiece(char[][] gameBoard, Player currentPlayer, int choice) {
 
         char playerPiece = determinePlayerPiece(currentPlayer);
@@ -92,6 +143,7 @@ public class Connect4Logic implements Connect4Constants {
         for (int row = gameBoard.length - 1; row >= 0; row--) {
             if (gameBoard[row][choice] == ' ') {
                 gameBoard[row][choice] = playerPiece;
+                System.out.println("Row: " + row + "     choice: " + choice);
                 break;
             }
         }
@@ -99,6 +151,13 @@ public class Connect4Logic implements Connect4Constants {
         currentPlayer.decrementPiece();
     }
 
+    /**
+     * Determines if both players are out of pieces, resulting in a tie.
+     * 
+     * @param px PlayerX
+     * @param po PlayerO
+     * @return boolean to determine if players are out of pieces
+     */
     public boolean outOfPieces(Player px, Player po) {
 
         if (px.getPieces() == 0 && po.getPieces() == 0) {
@@ -108,6 +167,11 @@ public class Connect4Logic implements Connect4Constants {
         return false;
     }
 
+    /**
+     * Determines who wins if a player quits the game.
+     * 
+     * @param currentPlayer The current turn player
+     */
     public void gameQuit(Player currentPlayer) {
         String winner;
         String current;
@@ -130,6 +194,13 @@ public class Connect4Logic implements Connect4Constants {
         System.out.println(builder);
     }
 
+    /**
+     * Sends a message to the console about the winner of the game. If there is not
+     * one, the game results in a tie.
+     * 
+     * @param winner        A boolean to decide if there was a winner
+     * @param currentPlayer The current turn player
+     */
     public void announceWinner(boolean winner, Player currentPlayer) {
         if (winner) {
             if (currentPlayer.equals(playerX)) {
@@ -148,17 +219,33 @@ public class Connect4Logic implements Connect4Constants {
 
     }
 
+    /**
+     * A helper method that returns the game token at a given space on the board.
+     * 
+     * @param row integer for row space
+     * @param col integer for column space
+     * @return character token
+     */
     public char getPiece(int row, int col) {
         char c = gameBoard[row][col];
         return c;
     }
 
+    /**
+     * The full logic to determine if a player has one. Checks to see if there are 4
+     * in a row in any direction. This method only checks the turn players pieces,
+     * and ignores empty spaces and opponent pieces. Benchmarked at an average time
+     * of under a millisecond.
+     * 
+     * @param gameBoard     The current state of the game board
+     * @param currentPlayer The current turn player
+     * @return boolean to decide if there is a winner
+     */
     public boolean winner(char[][] gameBoard, Player currentPlayer) {
 
         char piece = determinePlayerPiece(currentPlayer);
 
-        int[][] directions = { { 1, 0 }, { 1, -1 }, { 1, 1 }, { 0, 1 }, { -1, 1 }, { -1, 0 }, { 0, -1 }, { -1, -1 } };
-        for (int[] d : directions) {
+        for (int[] d : DIRECTIONS) {
             int dx = d[0];
             int dy = d[1];
 
@@ -183,40 +270,6 @@ public class Connect4Logic implements Connect4Constants {
             }
         }
         return false;
-
-//        char piece = determinePlayerPiece(currentPlayer);
-//
-//        int[][] directions = { { 1, 0 }, { 1, -1 }, { 1, 1 }, { 0, 1 }, { -1, 1 }, { -1, 0 }, { 0, -1 }, { -1, -1 } };
-//        for (int[] d : directions) {
-//            int dx = d[0];
-//            int dy = d[1];
-//            System.out.println("STARTING NEW DIRECTION");
-//            System.out.println("DX: " + dx + "\t DY: " + dy);
-//            System.out.println();
-//
-//            for (int x = 0; x < COLS; x++) {
-//                System.out.println("CHECKING COLUMN: " + x + "\n");
-//                for (int y = 0; y <= ROWS; y++) {
-//                    System.out.println("CHECKING ROW: "+ y + "\n");
-//
-//                    System.out.println("X: " + x + "\t Y: " + y);
-//                    
-//                    int lastx = x + 4 * dx;
-//                    int lasty = y + 4 * dy;
-//                    
-//                    //System.out.println("LASTX: " + lastx + "\t LASTY: " + lasty + "\n");
-//                    
-//                    if (0 <= lastx && lastx < ROWS && 0 <= lasty && lasty < COLS) {
-//                        if (piece != ' ' && piece == gameBoard[x + dx][y + dy]
-//                                && piece == gameBoard[x + 2 * dx][y + 2 * dy]
-//                                && piece == gameBoard[x + 3 * dx][y + 3 * dy] && piece == gameBoard[lastx][lasty]) {
-//                            return true;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        return false;
     }
 
 }

@@ -16,10 +16,19 @@ public class TerminalUi {
 
     private static Scanner scan;
 
+    /**
+     * Entry point to the program.
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
         menu();
     }
 
+    /**
+     * Creates the UI. User chooses to play against a computer, another player, or
+     * exit.
+     */
     public static void menu() {
         scan = new Scanner(System.in);
         int playerMenuChoice = -1;
@@ -54,6 +63,11 @@ public class TerminalUi {
 
     }
 
+    /**
+     * Creates a new Gameplay object and starts the game.
+     * 
+     * @param type
+     */
     public static void start(int type) {
         Gameplay game = new Gameplay(type, scan);
         game.start();

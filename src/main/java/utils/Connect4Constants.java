@@ -1,5 +1,11 @@
 package main.java.utils;
 
+/**
+ * Description: Connect4 Constants
+ * 
+ * @author Aaron Cordeau
+ * @version 7/3/2022
+ */
 public interface Connect4Constants {
     public static final int ROWS = 6;
     public static final int COLS = 7;
@@ -7,5 +13,6 @@ public interface Connect4Constants {
     public static final char X = 'X';
     public static final char O = 'O';
     public static final char WALL = '|';
-    public static final int[][] DIRECTIONS = { { 1, 0 }, { 1, -1 }, { 1, 1 }, { 0, 1 }, { -1, 1 }, { -1, 0 }, { 0, -1 }, { -1, -1 } };
+    public static final int[][] DIRECTIONS = { { 1, 0 }, { 1, -1 }, { 1, 1 }, { 0, 1 }, { -1, 1 }, { -1, 0 }, { 0, -1 },
+            { -1, -1 } };
 }
