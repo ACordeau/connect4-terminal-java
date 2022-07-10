@@ -101,7 +101,7 @@ public class Gameplay {
         if (currentPlayer instanceof ComputerPlayer) {
             choice = ((ComputerPlayer) currentPlayer).computerTurn(gameBoard);
         } else {
-            choice = Utils.getInput(scan);
+            choice = Utils.getColumnInput(scan);
             if (choice == -1) {
                 game.gameQuit(currentPlayer);
                 quit = true;

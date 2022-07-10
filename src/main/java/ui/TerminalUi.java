@@ -3,6 +3,7 @@ package main.java.ui;
 import java.util.Scanner;
 
 import main.java.core.Gameplay;
+import main.java.utils.Utils;
 
 /**
  * Description: Create a simple console UI for a game of Connect 4. Determines
@@ -13,6 +14,13 @@ import main.java.core.Gameplay;
  */
 
 public class TerminalUi {
+
+    // TODO ADD GRADLE
+    // TODO FIX QUIT GAME BUG
+    // TODO FIND A WAY TO ABSTRACT THE COMPUTER PLAYER METHODS
+    // TODO ADD MORE MEANINGFUL MESSAGES FOR THE USER
+    // TODO ADD DIFFICULTY
+    // TODO FIX INPUTMISMATCH
 
     private static Scanner scan;
 
@@ -42,7 +50,7 @@ public class TerminalUi {
 
             System.out.print("\nPlease select a menu option: ");
 
-            playerMenuChoice = scan.nextInt();
+            playerMenuChoice = Utils.getMenuInput(scan);
 
             switch (playerMenuChoice) {
             case 1:

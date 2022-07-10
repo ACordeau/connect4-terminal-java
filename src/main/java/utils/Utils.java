@@ -16,13 +16,29 @@ import main.java.player.Player;
 public class Utils {
 
     /**
-     * Gets input from the Player. Will return a non valid number if the Player does
-     * not input an integer.
+     * Gets menu input from the Player. Will return a non valid number if the Player
+     * does not input an integer.
+     * 
+     * @param scan Scanner to get input
+     * @return choice of menu option
+     */
+    public static int getMenuInput(Scanner scan) {
+        try {
+            return scan.nextInt();
+        } catch (InputMismatchException e) {
+            scan.nextLine();
+            return -1;
+        }
+    }
+
+    /**
+     * Gets column input from the Player. Will return a non valid number if the
+     * Player does not input an integer.
      * 
      * @param scan Scanner to get input
      * @return choice of column to place piece
      */
-    public static int getInput(Scanner scan) {
+    public static int getColumnInput(Scanner scan) {
         try {
             int choice = scan.nextInt();
             choice = choice - 1;
