@@ -15,7 +15,7 @@ import main.java.player.ComputerPlayer;
  * @version 7/3/2022
  */
 public class Gameplay {
-    private int gameType;
+
     private PlayerFactory pf;
     private Player playerX;
     private Player playerO;
@@ -36,7 +36,6 @@ public class Gameplay {
      */
     public Gameplay(int gameType, Scanner scan) {
         createPlayers(gameType);
-        this.gameType = gameType;
         this.scan = scan;
     }
 

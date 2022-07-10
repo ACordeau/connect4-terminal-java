@@ -11,7 +11,6 @@ import main.java.utils.Connect4Constants;
  * @version 7/3/2022
  */
 public class Connect4Logic implements Connect4Constants {
-
     private Player playerX;
     private Player playerO;
     private Player currentPlayer;
@@ -143,7 +142,6 @@ public class Connect4Logic implements Connect4Constants {
         for (int row = gameBoard.length - 1; row >= 0; row--) {
             if (gameBoard[row][choice] == ' ') {
                 gameBoard[row][choice] = playerPiece;
-                System.out.println("Row: " + row + "     choice: " + choice);
                 break;
             }
         }

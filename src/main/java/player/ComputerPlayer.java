@@ -28,6 +28,12 @@ public class ComputerPlayer extends Player {
      */
     public int computerTurn(char[][] gameBoard) {
 
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         int tryToWin = tryToWin(gameBoard);
         if (tryToWin != -2 && Utils.valid(tryToWin, gameBoard, this)) {
             return tryToWin;
@@ -64,8 +70,6 @@ public class ComputerPlayer extends Player {
         do {
             random = rand.nextInt(7 - 0) + 0;
         } while (Utils.columnFull(random, gameBoard));
-
-        System.out.println("THE RANDOM CHOICE IS " + random);
 
         return random;
 
