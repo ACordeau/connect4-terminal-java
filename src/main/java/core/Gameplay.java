@@ -91,6 +91,10 @@ public class Gameplay {
     public void startTurn() {
         currentPlayer = game.getCurrentPlayer();
         showBoard();
+        if (!(currentPlayer instanceof ComputerPlayer)) {
+            System.out.println("It is Player" + game.determinePlayerPiece(currentPlayer) + "'s turn.");
+            System.out.println("Choose a column number 1-7 to place your piece or enter 0 to quit.");
+        }
     }
 
     /**

@@ -28,6 +28,8 @@ public class ComputerPlayer extends Player {
      */
     public int computerTurn(char[][] gameBoard) {
 
+        System.out.println("\nComputer Taking Turn\n");
+        
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

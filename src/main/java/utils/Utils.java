@@ -24,7 +24,8 @@ public class Utils {
      */
     public static int getMenuInput(Scanner scan) {
         try {
-            return scan.nextInt();
+            int choice = scan.nextInt();
+            return choice;
         } catch (InputMismatchException e) {
             scan.nextLine();
             return -1;
