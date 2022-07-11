@@ -109,6 +109,7 @@ public class Gameplay {
             if (choice == -1) {
                 game.gameQuit(currentPlayer);
                 quit = true;
+                valid = true;
                 return;
             }
             valid = Utils.valid(choice, gameBoard, currentPlayer);
@@ -139,7 +140,6 @@ public class Gameplay {
 
         while (!game.outOfPieces(playerX, playerO) || !quit) {
             do {
-
                 startTurn();
 
                 playerChoice();
@@ -158,7 +158,6 @@ public class Gameplay {
             }
 
             game.setCurrentPlayer(currentPlayer);
-
         }
         if (!quit) {
             showBoard();
