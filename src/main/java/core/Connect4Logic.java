@@ -2,6 +2,7 @@ package main.java.core;
 
 import main.java.player.Player;
 import main.java.utils.Connect4Constants;
+import main.java.utils.Utils;
 
 /**
  * Description: Connect4 game logic. Determines the rules of a game of Connect
@@ -218,18 +219,6 @@ public class Connect4Logic implements Connect4Constants {
     }
 
     /**
-     * A helper method that returns the game token at a given space on the board.
-     * 
-     * @param row integer for row space
-     * @param col integer for column space
-     * @return character token
-     */
-    public char getPiece(int row, int col) {
-        char c = gameBoard[row][col];
-        return c;
-    }
-
-    /**
      * The full logic to determine if a player has one. Checks to see if there are 4
      * in a row in any direction. This method only checks the turn players pieces,
      * and ignores empty spaces and opponent pieces. Benchmarked at an average time
@@ -253,7 +242,7 @@ public class Connect4Logic implements Connect4Constants {
                     int lastx = x + 3 * dx;
                     int lasty = y + 3 * dy;
 
-                    if (getPiece(x, y) == piece) {
+                    if (Utils.getPiece(gameBoard, x, y) == piece) {
 
                         if (0 <= lastx && lastx < ROWS && 0 <= lasty && lasty < COLS) {
                             if (piece != ' ' && piece == gameBoard[x + dx][y + dy]

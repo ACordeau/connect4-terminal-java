@@ -101,5 +101,17 @@ public class Utils {
 
         return false;
     }
+    
+    /**
+     * A helper method that returns the game token at a given space on the board.
+     * 
+     * @param row integer for row space
+     * @param col integer for column space
+     * @return character token
+     */
+    public static char getPiece(char[][] gameBoard, int row, int col) {
+        char c = gameBoard[row][col];
+        return c;
+    }
 
 }
