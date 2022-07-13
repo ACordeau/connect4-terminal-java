@@ -2,6 +2,7 @@ package main.java.player;
 
 import java.util.Random;
 
+import main.java.core.Connect4Logic;
 import main.java.utils.Utils;
 
 /**
@@ -27,26 +28,26 @@ public class ComputerPlayer extends Player {
      * @return choice for the computer to place its piece
      */
     public int computerTurn(char[][] gameBoard) {
-
-        System.out.println("\nComputer Taking Turn\n");
         
+        System.out.println("Computer Turn...");
+
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        int tryToWin = tryToWin(gameBoard);
+        int tryToWin = checkBoard(gameBoard, O, X, 3);
         if (tryToWin != -2 && Utils.valid(tryToWin, gameBoard, this)) {
             return tryToWin;
         }
 
-        int thiar = threeInARow(gameBoard);
+        int thiar = checkBoard(gameBoard, X, O, 3);
         if (thiar != -2 && Utils.valid(thiar, gameBoard, this)) {
             return thiar;
         }
 
-        int twiar = twoInARow(gameBoard);
+        int twiar = checkBoard(gameBoard, X, O, 2);
         if (twiar != -2 && Utils.valid(twiar, gameBoard, this)) {
             if (Utils.randomNumber() % 2 != 0) {
                 return twiar;
@@ -103,103 +104,57 @@ public class ComputerPlayer extends Player {
     }
 
     /**
-     * The AI checks to see if it has 3 pieces in a row, and will prioritize winning
-     * the game over stopping the Player from winning.
+     * Helper method to check to see if there are 3 pieces in a row in any
+     * direction.
      * 
-     * @param gameBoard current state of the game
-     * @return choice for the computer to place its piece
+     * @param gameBoard Current state of the game
+     * @param x         Integer for the X coordinate on the gameBoard
+     * @param y         Integer for the Y coordinate on the gameBoard
+     * @param d         Integer array that holds the directional coordinates
+     *                  (specifically used for diagonals)
+     * @return Integer to tell the AI where their piece should be placed
      */
-    public int tryToWin(char[][] gameBoard) {
-        char piece = O;
-
-        for (int[] d : DIRECTIONS) {
-            int dx = d[0];
-            int dy = d[1];
-
-            for (int x = 0; x < ROWS; x++) {
-                for (int y = 0; y < COLS; y++) {
-
-                    int lastx = x + 3 * dx;
-                    int lasty = y + 3 * dy;
-
-                    if (piece == O) {
-
-                        if (0 <= lastx && lastx < ROWS && 0 <= lasty && lasty < COLS) {
-                            if (piece != ' ' && piece == gameBoard[x + dx][y + dy]
-                                    && piece == gameBoard[x + 2 * dx][y + 2 * dy] && piece == gameBoard[lastx][lasty]
-                                    && gameBoard[x][y] != X) {
-
-                                if (((d[0] == 1 && d[1] == 1)
-                                        || (d[0] == 1 && d[1] == -1) && gameBoard[x + 1][y] == ' ')) {
-                                    return -2;
-                                } else if (x < 5 && gameBoard[x + 1][y] == ' ') {
-                                    return computerRandomChoice(gameBoard, y);
-                                } else {
-                                    return y;
-                                }
-                            }
-                        }
-
-                    }
-                }
-            }
+    private int threeInARow(char[][] gameBoard, int x, int y, int[] d) {
+        if (((d[0] == 1 && d[1] == 1) || (d[0] == 1 && d[1] == -1) && gameBoard[x + 1][y] == ' ')) {
+            return -2;
+        } else if (x < 5 && gameBoard[x + 1][y] == ' ') {
+            return computerRandomChoice(gameBoard, y);
+        } else {
+            return y;
         }
-        return -2;
     }
 
     /**
-     * The AI checks to see if the player has 2 pieces in a row. If it does, it has
-     * a 50% chance to either try and block the Player's piece, or place a random
-     * piece.
+     * Helper method to check to see if the opponent has two pieces in a row in any
+     * direction.
      * 
-     * @param gameBoard current state of the game
-     * @return choice for the computer to place its piece
+     * @param gameBoard Current state of the game
+     * @param x         Integer for the X coordinate on the gameBoard
+     * @param y         Integer for the Y coordinate on the gameBoard
+     * @param d         Integer array that holds the directional coordinates
+     *                  (specifically used for diagonals)
+     * @return Integer to tell the AI where their piece should be placed
      */
-    public int twoInARow(char[][] gameBoard) {
-        char piece = X;
-
-        for (int[] d : DIRECTIONS) {
-            int dx = d[0];
-            int dy = d[1];
-
-            for (int x = 0; x < ROWS; x++) {
-                for (int y = 0; y < COLS; y++) {
-
-                    int lastx = x + 2 * dx;
-                    int lasty = y + 2 * dy;
-
-                    if (piece == X) {
-
-                        if (0 <= lastx && lastx < ROWS && 0 <= lasty && lasty < COLS) {
-                            if (piece != ' ' && piece == gameBoard[x + dx][y + dy] && piece == gameBoard[lastx][lasty]
-                                    && gameBoard[x][y] != O) {
-
-                                if (((d[0] == 1 && d[1] == 1)
-                                        || (d[0] == 1 && d[1] == -1) && gameBoard[x + 1][y] == ' ')) {
-                                    return -2;
-                                } else {
-                                    return y;
-                                }
-                            }
-                        }
-
-                    }
-                }
-            }
+    private int twoInARow(char[][] gameBoard, int x, int y, int[] d) {
+        if (((d[0] == 1 && d[1] == 1) || (d[0] == 1 && d[1] == -1) && gameBoard[x + 1][y] == ' ')) {
+            return -2;
+        } else {
+            return y;
         }
-        return -2;
     }
 
     /**
-     * The AI checks to see if the Player has 3 pieces in a row, if they do, it will
-     * try to block them from winning.
+     * The AI checks the board to see what the best play is based on the given
+     * paramenters.
      * 
-     * @param gameBoard current state of the game
-     * @return choice for the computer to place its piece
+     * @param gameBoard     Current state of the game
+     * @param playerPiece   The piece the AI is checking for
+     * @param opposingPiece The piece the AI is checking against
+     * @param inARow        Integer to tell the AI how many in a row it needs to
+     *                      check for
+     * @return Integer to tell the AI where their piece should be placed
      */
-    public int threeInARow(char[][] gameBoard) {
-        char piece = X;
-
+    public int checkBoard(char[][] gameBoard, char playerPiece, char opposingPiece, int inARow) {
         for (int[] d : DIRECTIONS) {
             int dx = d[0];
             int dy = d[1];
@@ -207,24 +162,23 @@ public class ComputerPlayer extends Player {
             for (int x = 0; x < ROWS; x++) {
                 for (int y = 0; y < COLS; y++) {
 
-                    int lastx = x + 3 * dx;
-                    int lasty = y + 3 * dy;
+                    int lastx = x + inARow * dx;
+                    int lasty = y + inARow * dy;
 
-                    if (piece == X) {
+                    if (0 <= lastx && lastx < ROWS && 0 <= lasty && lasty < COLS) {
+                        if (playerPiece == Utils.getPiece(gameBoard, lastx, lasty)) {
+                            if (inARow == 3 && playerPiece == gameBoard[x + dx][y + dy]
+                                    && playerPiece == gameBoard[x + 2 * dx][y + 2 * dy]
+                                    && playerPiece == gameBoard[lastx][lasty] && gameBoard[x][y] != opposingPiece) {
 
-                        if (0 <= lastx && lastx < ROWS && 0 <= lasty && lasty < COLS) {
-                            if (piece != ' ' && piece == gameBoard[x + dx][y + dy]
-                                    && piece == gameBoard[x + 2 * dx][y + 2 * dy] && piece == gameBoard[lastx][lasty]
-                                    && gameBoard[x][y] != O) {
+                                return threeInARow(gameBoard, x, y, d);
 
-                                if (((d[0] == 1 && d[1] == 1)
-                                        || (d[0] == 1 && d[1] == -1) && gameBoard[x + 1][y] == ' ')) {
-                                    return -2;
-                                } else if (x < 5 && gameBoard[x + 1][y] == ' ') {
-                                    return computerRandomChoice(gameBoard, y);
-                                } else {
-                                    return y;
-                                }
+                            }
+                            if (inARow == 2 && playerPiece == gameBoard[x + dx][y + dy]
+                                    && playerPiece == gameBoard[lastx][lasty] && gameBoard[x][y] != opposingPiece) {
+
+                                return twoInARow(gameBoard, x, y, d);
+
                             }
                         }
 
