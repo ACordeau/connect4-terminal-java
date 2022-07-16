@@ -72,14 +72,14 @@ public class Utils {
     public static boolean valid(int choice, char[][] board, Player p) {
         if (choice < 0 || choice > board.length) {
             if (!(p instanceof ComputerPlayer)) {
-                System.out.println("Input must be either 1 through 7, or 0 to quit.");
+                createMessage("Input must be either 1 through 7, or 0 to quit.");
             }
             return false;
         }
 
         if (columnFull(choice, board)) {
             if (!(p instanceof ComputerPlayer)) {
-                System.out.println("The column is full.");
+                createMessage("The column is full.");
             }
             return false;
         }
@@ -101,7 +101,7 @@ public class Utils {
 
         return false;
     }
-    
+
     /**
      * A helper method that returns the game token at a given space on the board.
      * 
@@ -112,6 +112,14 @@ public class Utils {
     public static char getPiece(char[][] gameBoard, int row, int col) {
         char c = gameBoard[row][col];
         return c;
+    }
+
+    public static void createMessage(String... s) {
+        StringBuilder sb = new StringBuilder();
+        for (String val : s) {
+            sb.append(val);
+        }
+        System.out.println(sb);
     }
 
 }

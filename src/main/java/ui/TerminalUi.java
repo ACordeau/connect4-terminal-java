@@ -17,7 +17,7 @@ public class TerminalUi {
 
     // TODO DONE | ADD GRADLE
     // TODO DONE | FIX QUIT GAME BUG
-    // TODO FIND A WAY TO ABSTRACT THE COMPUTER PLAYER METHODS
+    // TODO DONE | FIND A WAY TO ABSTRACT THE COMPUTER PLAYER METHODS
     // TODO DONE | ADD MORE MEANINGFUL MESSAGES FOR THE USER
     // TODO ADD DIFFICULTY
     // TODO DONE | FIX INPUTMISMATCH
@@ -43,10 +43,8 @@ public class TerminalUi {
 
         while (playerMenuChoice < 0 || playerMenuChoice > 2) {
 
-            System.out.println("Welcome to Aaron's Connect 4 experience. \n******************************");
-            System.out.println("1. Start game against AI");
-            System.out.println("2. Start game against Player");
-            System.out.println("0. Quit");
+            Utils.createMessage("Welcome to Aaron's Connect 4 experience. \n******************************",
+                    "\n1. Start game against AI", "\n2. Start game against Player", "\n0. Quit");
 
             System.out.print("\nPlease select a menu option: ");
 
@@ -60,12 +58,12 @@ public class TerminalUi {
                 start(playerMenuChoice);
                 break;
             case 0:
-                System.out.println("Thank you for joining, goodbye!");
+                Utils.createMessage("Thank you for joining, goodbye!");
                 scan.close();
                 System.exit(0);
                 break;
             default:
-                System.out.println("Please select an available option");
+                Utils.createMessage("Please select an available option");
             }
         }
 
@@ -76,7 +74,7 @@ public class TerminalUi {
      * 
      * @param type
      */
-    public static void start(int type) {
+    private static void start(int type) {
         Gameplay game = new Gameplay(type, scan);
         game.start();
         menu();

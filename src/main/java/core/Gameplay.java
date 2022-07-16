@@ -45,7 +45,7 @@ public class Gameplay {
      * 
      * @param type The type of game, vs AI or Player
      */
-    public void createPlayers(int type) {
+    private void createPlayers(int type) {
         pf = new PlayerFactory();
         playerX = pf.createPlayer('p');
         if (type == 2) {
@@ -81,26 +81,28 @@ public class Gameplay {
     /**
      * Draws the board to the console
      */
-    public void showBoard() {
+    private void showBoard() {
         game.display(gameBoard);
     }
 
     /**
      * Sets up the start of the turn
      */
-    public void startTurn() {
+    private void startTurn() {
         currentPlayer = game.getCurrentPlayer();
         showBoard();
         if (!(currentPlayer instanceof ComputerPlayer)) {
-            System.out.println("It is Player" + game.determinePlayerPiece(currentPlayer) + "'s turn.");
-            System.out.println("Choose a column number 1-7 to place your piece or enter 0 to quit.");
+
+            Utils.createMessage("It is Player" + game.determinePlayerPiece(currentPlayer) + "'s turn.",
+                    "\nChoose a column number 1-7 to place your piece or enter 0 to quit.");
+
         }
     }
 
     /**
      * Gets input from the AI or Player
      */
-    public void playerChoice() {
+    private void playerChoice() {
 
         if (currentPlayer instanceof ComputerPlayer) {
             choice = ((ComputerPlayer) currentPlayer).computerTurn(gameBoard);
@@ -119,7 +121,7 @@ public class Gameplay {
     /**
      * Places a piece onto the game board
      */
-    public void makeMove() {
+    private void makeMove() {
         game.placePiece(gameBoard, currentPlayer, choice);
         gameBoard = game.getGameBoard();
     }
@@ -127,14 +129,14 @@ public class Gameplay {
     /**
      * Checks if there is a winner
      */
-    public void checkWinner() {
+    private void checkWinner() {
         winner = game.winner(gameBoard, currentPlayer);
     }
 
     /**
      * The Connect 4 gameplay loop
      */
-    public void playtime() {
+    private void playtime() {
 
         init();
 

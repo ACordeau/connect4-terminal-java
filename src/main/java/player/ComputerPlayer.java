@@ -28,8 +28,7 @@ public class ComputerPlayer extends Player {
      * @return choice for the computer to place its piece
      */
     public int computerTurn(char[][] gameBoard) {
-        
-        System.out.println("Computer Turn...");
+        Utils.createMessage("Computer Turn...");
 
         try {
             Thread.sleep(3000);
@@ -65,7 +64,7 @@ public class ComputerPlayer extends Player {
      * @param gameBoard current state of the game
      * @return choice for the computer to place its piece
      */
-    public int computerRandomChoice(char[][] gameBoard) {
+    private int computerRandomChoice(char[][] gameBoard) {
 
         Random rand = new Random();
         int random;
@@ -86,7 +85,7 @@ public class ComputerPlayer extends Player {
      * @param gameBoard current state of the game
      * @return choice for the computer to place its piece
      */
-    public int computerRandomChoice(char[][] gameBoard, int except) {
+    private int computerRandomChoice(char[][] gameBoard, int except) {
         Random rand = new Random();
         int random;
         int amount = 0;
@@ -154,7 +153,7 @@ public class ComputerPlayer extends Player {
      *                      check for
      * @return Integer to tell the AI where their piece should be placed
      */
-    public int checkBoard(char[][] gameBoard, char playerPiece, char opposingPiece, int inARow) {
+    private int checkBoard(char[][] gameBoard, char playerPiece, char opposingPiece, int inARow) {
         for (int[] d : DIRECTIONS) {
             int dx = d[0];
             int dy = d[1];

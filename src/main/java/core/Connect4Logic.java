@@ -183,14 +183,8 @@ public class Connect4Logic implements Connect4Constants {
             winner = "X";
         }
 
-        StringBuilder builder = new StringBuilder();
-        builder.append("Player ");
-        builder.append(current);
-        builder.append(" has quit the game. Player ");
-        builder.append(winner);
-        builder.append(" wins!");
+        Utils.createMessage("Player ", current, " has quit the game. Player ", winner, " wins!");
 
-        System.out.println(builder);
     }
 
     /**
@@ -203,17 +197,17 @@ public class Connect4Logic implements Connect4Constants {
     public void announceWinner(boolean winner, Player currentPlayer) {
         if (winner) {
             if (currentPlayer.equals(playerX)) {
-                System.out.println("Player X wins!");
+                Utils.createMessage("Player X wins!");
                 return;
             }
 
             if (currentPlayer.equals(playerO)) {
-                System.out.println("Player O wins!");
+                Utils.createMessage("Player O wins!");
                 return;
             }
         }
 
-        System.out.println("The game is a tie!");
+        Utils.createMessage("The game is a tie!");
         return;
 
     }
